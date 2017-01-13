@@ -290,6 +290,7 @@ actors.forEach(function(actor) {
       }
       break;
     }
+  }
 });
 }
 
