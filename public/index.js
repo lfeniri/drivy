@@ -286,7 +286,7 @@ actors.forEach(function(actor) {
           if(actor.payment[p].who == "assistance")
             actor.payment[p].amount = rental.commission.assistance;
           if(actor.payment[p].who == "drivy")
-            actor.payment[p].amount = rental.commission;
+            actor.payment[p].amount = rental.commission.drivy;
       }
       break;
     }
@@ -294,10 +294,10 @@ actors.forEach(function(actor) {
 });
 }
 
-updatePrice3();
+updatePrice4();
+updateActor();
 
-
-//console.log(cars);
+console.log(cars);
 console.log(rentals);
-//console.log(actors);
-//console.log(rentalModifications);
+console.log(actors);
+console.log(rentalModifications);
