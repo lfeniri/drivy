@@ -165,7 +165,138 @@ var rentalModifications = [{
   'pickupDate': '2015-12-05'
 }];
 
-console.log(cars);
+//Exercice 1
+function updatePrice1(){
+rentals.forEach(function(rental) {
+
+  var time = new Date(rental.returnDate) - new Date(rental.pickupDate);
+  time = time / (1000*60*60*24) ;
+  for(var c in cars){
+    //console.log(c);
+    if(cars[c].id == rental.carId ){
+        //console.log(time*cars[c].pricePerDay + rental.distance*cars[c].pricePerKm);
+        rental.price = time*cars[c].pricePerDay + rental.distance*cars[c].pricePerKm;
+        break;
+    }
+  }
+
+});
+}
+//exercice 2
+function updatePrice2(){
+rentals.forEach(function(rental) {
+
+  var time = new Date(rental.returnDate) - new Date(rental.pickupDate);
+  time = time / (1000*60*60*24) ;
+  var percentage = 0;
+  if(time > 1)
+    percentage = 10;
+  if(time > 4)
+    percentage = 30;
+  if(time > 10)
+    percentage = 50;
+  time++;
+  for(var c in cars){
+    //console.log(c);
+    if(cars[c].id == rental.carId ){
+        //console.log(time*cars[c].pricePerDay + rental.distance*cars[c].pricePerKm);
+        rental.price = time* (cars[c].pricePerDay - (cars[c].pricePerDay * percentage/100)) + rental.distance*cars[c].pricePerKm ;
+        break;
+    }
+  }
+});
+}
+
+//exercice 3
+function updatePrice3(){
+rentals.forEach(function(rental) {
+
+  var time = new Date(rental.returnDate) - new Date(rental.pickupDate);
+  time = time / (1000*60*60*24) ;
+  var percentage = 0;
+  if(time > 1)
+    percentage = 10;
+  if(time > 4)
+    percentage = 30;
+  if(time > 10)
+    percentage = 50;
+  time++;
+  for(var c in cars){
+    //console.log(c);
+    if(cars[c].id == rental.carId ){
+        //console.log(time*cars[c].pricePerDay + rental.distance*cars[c].pricePerKm);
+        rental.price = time* (cars[c].pricePerDay - (cars[c].pricePerDay * percentage/100)) + rental.distance*cars[c].pricePerKm ;
+        break;
+    }
+  }
+  var commission  =   rental.price * 30 / 100;
+  rental.commission.insurance = commission / 2;
+  rental.commission.assistance = time;
+  rental.commission.drivy = commission/2 - time;
+});
+}
+
+//exercice 4
+function updatePrice4(){
+rentals.forEach(function(rental) {
+
+  var time = new Date(rental.returnDate) - new Date(rental.pickupDate);
+  time = time / (1000*60*60*24) ;
+  var percentage = 0;
+  if(time > 1)
+    percentage = 10;
+  if(time > 4)
+    percentage = 30;
+  if(time > 10)
+    percentage = 50;
+  time++;
+  var addition = 0;
+  for(var c in cars){
+    //console.log(c);
+    if(cars[c].id == rental.carId ){
+        //console.log(time*cars[c].pricePerDay + rental.distance*cars[c].pricePerKm);
+        if(rental.options.deductibleReduction == true)
+          addition = time * (cars[c].pricePerDay * 4);
+        rental.price = time* (cars[c].pricePerDay - (cars[c].pricePerDay * percentage/100)) + rental.distance*cars[c].pricePerKm ;
+            break;
+    }
+  }
+
+  var commission  =   rental.price  * 30 / 100;
+  rental.price = rental.price + addition;
+  rental.commission.insurance = commission / 2;
+  rental.commission.assistance = time;
+  rental.commission.drivy = commission/2 - time + addition;
+});
+}
+
+
+//exercice 5
+function updateActor(){
+actors.forEach(function(actor) {
+  for(var rental in rentals){
+    if(actor.rentalId == rentals[rental].id){
+      for(var p in actor.payment){
+          if(actor.payment[p].who == "driver")
+            actor.payment[p].amount = rental.price;
+          if(actor.payment[p].who == "owner")
+            actor.payment[p].amount = rental.price - rental.commission.assistance - rental.commission.drivy - rental.commission.insurance;
+          if(actor.payment[p].who == "insurance")
+            actor.payment[p].amount = rental.commission.insurance;
+          if(actor.payment[p].who == "assistance")
+            actor.payment[p].amount = rental.commission.assistance;
+          if(actor.payment[p].who == "drivy")
+            actor.payment[p].amount = rental.commission;
+      }
+      break;
+    }
+});
+}
+
+updatePrice3();
+
+
+//console.log(cars);
 console.log(rentals);
-console.log(actors);
-console.log(rentalModifications);
+//console.log(actors);
+//console.log(rentalModifications);
